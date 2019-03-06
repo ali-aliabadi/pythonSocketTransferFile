@@ -13,9 +13,7 @@ print('start reciving file ...')
 
 first_data = mysocket.recv(256)
 
-# print(first_data)
-
-data = mysocket.recv(int(first_data.decode()))
+data = mysocket.recv(int.from_bytes(first_data, 'big'))
 
 file.write(data)
 

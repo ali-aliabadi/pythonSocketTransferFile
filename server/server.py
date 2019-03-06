@@ -19,7 +19,7 @@ print()
 file_size = os.path.getsize('shahid_beheshti.png')
 print('file size : {}'.format(str(file_size)), 'bytes')
 
-s.send(str(file_size).encode())
+s.send(file_size.to_bytes(7, 'big'))
 
 sleep(1)
 
