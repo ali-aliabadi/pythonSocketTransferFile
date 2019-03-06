@@ -19,11 +19,9 @@ print()
 file_size = os.path.getsize('shahid_beheshti.png')
 print('file size : {}'.format(str(file_size)), 'bytes')
 
-s.send(str(file_size).encode('utf-8'))
+s.send(str(file_size).encode())
 
 sleep(1)
-"""
-"""
 
 with open('shahid_beheshti.png', 'rb') as file:
     os.system('sha1sum shahid_beheshti.png > .hash.sha1')

@@ -15,7 +15,7 @@ first_data = mysocket.recv(256)
 
 # print(first_data)
 
-data = mysocket.recv(int(first_data.decode('utf-8')))
+data = mysocket.recv(int(first_data.decode()))
 
 file.write(data)
 
