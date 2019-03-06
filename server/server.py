@@ -1,5 +1,6 @@
 import os
 import socket
+from time import sleep
 
 host, port = '127.0.0.1', 8080
 
@@ -13,28 +14,26 @@ print('waiting for client...')
 my_socket.listen(1)
 s, addr = my_socket.accept()
 print('connection from :', str(addr))
+print()
 
 file_size = os.path.getsize('shahid_beheshti.png')
 print('file size : {}'.format(str(file_size)), 'bytes')
 
+s.send(str(file_size).encode('utf-8'))
+
+sleep(1)
+"""
+"""
+
 with open('shahid_beheshti.png', 'rb') as file:
     os.system('sha1sum shahid_beheshti.png > .hash.sha1')
     counter = 1
-    data = file.read(1024)
-    flag = False
-    while data != bytes(''.encode()):
-        left = file_size - 1024 * counter
-        if left > 0:
-            print(int(((1024 * counter) / file_size) * 100), '% Completed')
-        else:
-            print('File transfering over.')
-            flag = True
-        s.send(data)
-        if flag:
-            s.send('\n\n'.encode('utf-8'))
-        data = file.read(1024)
-        counter += 1
+    data = file.read(file_size)
+    print('file sending in progress')
+    s.send(data)
     print('File sent successfully.')
+
+print()
 
 with open('.hash.sha1', 'r') as hash_file:
     data = str(hash_file.read())

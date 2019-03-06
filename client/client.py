@@ -9,24 +9,15 @@ mysocket.connect((host, port))
 
 file = open('shahid_beheshti.png', 'wb')
 
-data = mysocket.recv(1024)
-data1 = ''
+print('start reciving file ...')
 
-departed = len('\n\n')
-flag = False
+first_data = mysocket.recv(256)
 
-while data != bytes(''.encode()):
-    for i in range(1024 - departed):
-        if '\n\n'.encode('utf-8') == data[i:i + departed:]:
-            data1 = data[i+departed::].decode('utf-8')
-            data = data[:i:]
-            flag = True
-    file.write(data)
-    data = mysocket.recv(1024)
-    if flag:
-        if len(data.decode('utf-8')):
-            data1 += data.decode('utf-8')
-        break
+# print(first_data)
+
+data = mysocket.recv(int(first_data.decode('utf-8')))
+
+file.write(data)
 
 file.close()
 
@@ -35,13 +26,15 @@ print('file recived successfully', 'now checking the progress...')
 os.system('sha1sum shahid_beheshti.png > .hash.sha1')
 print()
 
+file_code = mysocket.recv(256).decode('utf-8')
+
 with open('.hash.sha1', 'r') as hash_file:
-    hashData = str(hash_file.read())
-    if hashData == data1:
+    hashData = hash_file.read()
+    if hashData == file_code:
         print('File transvered without damage and error')
     else:
         print('File transvered but some error occurred')
-        print('data from server :', data1)
+        print('data from server :', file_code)
         print('hash data of transfered file :', hashData)
 
 mysocket.close()
